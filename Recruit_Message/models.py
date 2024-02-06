@@ -1,5 +1,5 @@
 from django.db import models
-from User.models import User
+
 class Recruit_Message(models.Model):
     id = models.CharField(Max_length=20,null=False,blank=False,verbose_name=u"招募信息标识符")
     title = models.CharField(Max_length=20,null=False,blank=False,verbose_name=u"标题")
@@ -14,4 +14,4 @@ class Recruit_Message(models.Model):
     image = models.ImageField(upload_to='images/',null=False,blank=False,verbose_name=u"美团店铺截图")
     is_complete = models.BooleanField(default=False,null=False,blank=False,verbose_name=u"是否完成")
 
-    user = models.ManyToManyField(User,related_name='recruit_message')
+    user = models.ManyToManyField("User.User",related_name='recruit_message')
