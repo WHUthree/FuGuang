@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .message{
+            height:300px;
+            border:1px solid #dddddd;
+            width:100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="message" id="message"></div>
+<div>
+    <input type="text" placeholder="pls input" id="txt">
+    <input type="button" value="send" onclick="sendMessage()">
+    <input type="button" value="close" onclick="closeConnection()">
+</div>
+
+<script>
+    socket = new WebSocket("ws://127.0.0.1:8000/chat/{{group_id}}/");
+
+    socket.onopen = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = "[successfully connect]";
+        document.getElementById("message").appendChild(tag);
+    }
+
+     socket.onmessage = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = event.data;
+        document.getElementById("message").appendChild(tag);
+    }
+
+    socket.onclose = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = "[close connect]";
+        document.getElementById("message").appendChild(tag);
+    }
+
+    function sendMessage(){
+        let tag = document.getElementById("txt");
+        socket.send(tag.value);
+    }
+
+    function closeConnection(){
+        socket.close();
+    }
+
+</script>
+
+</body>
+</html>

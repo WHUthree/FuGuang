@@ -72,3 +72,4 @@ class Share(models.Model):
     class Meta:
         verbose_name = "分享"
         verbose_name_plural = verbose_name
+        
