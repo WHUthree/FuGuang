@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import datetime
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -120,7 +121,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -183,9 +183,12 @@ SIMPLE_JWT = {
 
 # 后端配置
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
     # 'User.wechat_auth.MyJWTAuthentication',
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'User.backend.MyCustomBackend',
 )
 
-
+# 文件上传的保存路径
+MEDIA_ROOT = BASE_DIR / 'file/image'
+MEDIA_URL = 'file/image/'

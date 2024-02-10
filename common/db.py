@@ -1,4 +1,12 @@
+import os
+
 from django.db import models
+from django.http import FileResponse
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from FuGuang.settings import MEDIA_ROOT
 
 
 class BaseModel(models.Model):
@@ -14,3 +22,11 @@ class BaseModel(models.Model):
         verbose_name_plural = "公共字段表"
         db_table = "BaseTable"
 
+
+# 获取文件公共接口
+class FileView(APIView):
+    def get(self, request, name):
+        path = MEDIA_ROOT / name
+        if os.path.isfile(path):
+            return FileResponse(open(path, 'rb'))
+        return Response({"error": "文件不存在"}, status=status.HTTP_404_NOT_FOUND)

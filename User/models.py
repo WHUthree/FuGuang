@@ -26,7 +26,7 @@ class User(AbstractUser, BaseModel):
     student_number = models.CharField(max_length=20, verbose_name="学号")
     phone_number = models.CharField(max_length=20, verbose_name="电话")
     grade = models.IntegerField(default=0, verbose_name="年级")
-    email = models.CharField(max_length=20, unique=True, verbose_name="邮箱", null=True, blank=True)
+    email = models.CharField(max_length=20, verbose_name="邮箱", null=True, blank=True)
 
     # 个性化
     avatar = models.ImageField(verbose_name="用户头像", blank=True, null=True)

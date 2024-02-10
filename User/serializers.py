@@ -23,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    password = serializers.CharField(max_length=150, allow_blank=True, required=False, allow_null=True)
 
     # 添加openid进入token信息
     @classmethod

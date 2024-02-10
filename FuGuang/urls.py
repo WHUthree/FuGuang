@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
+from common.db import FileView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('User.urls')),
+    re_path(r'/file/image/(.+?)/', FileView.as_view()),
 
 ]
