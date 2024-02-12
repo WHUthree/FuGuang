@@ -8,3 +8,4 @@ class UserPermission(permissions.BasePermission):
             return True
 
         return obj == request.user
+

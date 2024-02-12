@@ -182,12 +182,12 @@ SIMPLE_JWT = {
 }
 
 # 后端配置
-AUTHENTICATION_BACKENDS = (
-    # 'django.contrib.auth.backends.ModelBackend',
-    # 'User.wechat_auth.MyJWTAuthentication',
-    # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-    'User.backend.MyCustomBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     # 'django.contrib.auth.backends.ModelBackend',
+#     # 'User.wechat_auth.MyJWTAuthentication',
+#     # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     # 'User.backend.MyCustomBackend',
+# )
 
 # 文件上传的保存路径
 MEDIA_ROOT = BASE_DIR / 'file/image'

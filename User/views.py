@@ -1,5 +1,6 @@
 import os
 from tokenize import TokenError
+from uuid import uuid1
 
 from django.http import FileResponse
 from django.shortcuts import render
@@ -39,6 +40,7 @@ def getOpenid(code, appId, appSecret):
 
 
 class RegisterView(APIView):
+    """注册视图"""
     def post(self, request):
         code = request.data.get("code", None)
         appId = request.data.get("appid", None)
@@ -67,6 +69,7 @@ class RegisterView(APIView):
 
 
 class LoginView(TokenObtainPairView):
+    """登录视图"""
     queryset = User.objects.all()
     serializer_class = MyTokenObtainPairSerializer
 
@@ -121,11 +124,11 @@ class UserView(ModelViewSet):
         # 校验是否有上传文件
         if not avatar:
             return Response({'error': '上传失败文件不能为空'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-
         # 文件大小不能超过300kb
         if avatar.size > 1024 * 300:
             return Response({'error': '上传失败, 文件大小不能超过300kb'})
 
+        avatar.name = str(uuid1()) + os.path.splitext(avatar.name)[-1]
         # 保存文件
         user = self.get_object()
 
@@ -135,6 +138,10 @@ class UserView(ModelViewSet):
         ser.save()
 
         return Response({'url':ser.data['avatar']})
+
+
+class MessageView():
+    pass
 
 
 
