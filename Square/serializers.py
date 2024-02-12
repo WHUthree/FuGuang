@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from ..User.serializers import UserSerializer
 from .models import *
 
 class MealInfoSerializer(serializers.ModelSerializer):
@@ -8,15 +9,6 @@ class MealInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MealInfo
-        fields = "__all__"
-
-
-class MessageSerializer(serializers.ModelSerializer):
-
-    participants = UserSerializer(many=True)
-
-    class Meta:
-        model = Message
         fields = "__all__"
 
 

@@ -12,7 +12,7 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter,URLRouter
 
-from . import routings
+from ..Message import routings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FuGuang.settings')
 

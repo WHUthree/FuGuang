@@ -38,16 +38,6 @@ class MealInfo(models.Model):
         verbose_name_plural = verbose_name
 
 
-class Message(models.Model):
-    sender = models.ForeignKey(User,related_name="sent_messages",verbose_name="发送留言")
-    corresponding_meal = models.ForeignKey(MealInfo,related_name="left_messages",verbose_name="约饭留言")
-    content = models.TextField(verbose_name="留言内容")
-
-    class Meta:
-        verbose_name = "留言"
-        verbose_name_plural = verbose_name
-
-
 class Appraise(models.Model):
     recipient = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="被评价者")
     star = models.SmallIntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)],verbose_name="星数")
@@ -72,4 +62,3 @@ class Share(models.Model):
     class Meta:
         verbose_name = "分享"
         verbose_name_plural = verbose_name
-        

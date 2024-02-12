@@ -4,6 +4,5 @@ from . import views
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    #发送get请求 /?gid=
-    path('chat/',views.show)
+    path('<int:gid>/',views.show,name='show')
 ]
