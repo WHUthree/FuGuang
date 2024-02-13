@@ -24,19 +24,20 @@ import requests
 # Create your views here.
 def getOpenid(code, appId, appSecret):
     """获取openid"""
-    url = "https://api.weixin.qq.com/sns/jscode2session"
-    url += "?appid=" + appId
-    url += "&secret=" + appSecret
-    url += "&js_code=" + code
-    url += "&grant_type=authorization_code"
+    url = 'https://api.weixin.qq.com/sns/jscode2session?' \
+          'appid={appid}&' \
+          'secret={secret}&' \
+          'js_code={code}&' \
+          'grant_type=authorization_code'.format(appid=appId, secret=appSecret, code=code)
     response = requests.get(url)
+
     try:
         # 这里就是拿到的openid和session_key
         openid = response.json()['openid']
         session_key = response.json()['session_key']
         return (openid, session_key)
-    except KeyError:
-        return Response({'code': 'fail'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+    except KeyError as e:
+        return Response({'error': 'code fail'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 
 class RegisterView(APIView):
@@ -83,16 +84,17 @@ class LoginView(TokenObtainPairView):
         if not code and not password:
             return Response({"error: 缺少code"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         if code:
-            # openid = getOpenid(code, appId, appSecret)
-            # user = User.objects.filter(openid=openid).first()
-            user = User.objects.first()
+            openid = getOpenid(code, appId, appSecret)
+            user = User.objects.filter(openid=openid).first()
+            # user = User.objects.first()
             if not user:
-                return Response({"error: 用户不存在"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+                return Response({"error: 该微信用户不存在"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
             refresh = RefreshToken.for_user(user)
             res = {
                 'msg': '登录成功',
                 'id': user.id,
                 'username': user.username,
+                'admin': user.is_superuser,
                 'refresh': str(refresh),
                 'token': str(refresh.access_token),
             }

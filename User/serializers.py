@@ -18,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar",
             "gender",
             "grade",
+            "is_superuser",
         ]
 
 
@@ -43,6 +44,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'msg': '登录成功',
                 'id': self.user.id,
                 'username': self.user.username,
+                'admin': self.user.is_superuser,
                 'refresh': old_data['refresh'],
                 'token': old_data['access']
                 }
