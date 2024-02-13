@@ -46,7 +46,6 @@ class User(AbstractUser, BaseModel):
         verbose_name="微信openid"
     )
 
-
     class Meta:
         verbose_name = "用户表"
         verbose_name_plural = verbose_name
@@ -67,15 +66,15 @@ class VerifCode(models.Model):
         db_table = 'verifcode'
 
 
-class Message(models.Model):
-    """私信模型"""
-    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE, verbose_name='发送方')
-    recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE, verbose_name='接收方')
-    content = models.TextField(verbose_name='私信内容')
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='私信的发送时间')
-
-    class Meta:
-        verbose_name = '用户私信表'
-        verbose_name_plural = verbose_name
-        db_table = 'message'
+# class Message(models.Model):
+#     """私信模型"""
+#     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE, verbose_name='发送方')
+#     recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE, verbose_name='接收方')
+#     content = models.TextField(verbose_name='私信内容')
+#     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='私信的发送时间')
+#
+#     class Meta:
+#         verbose_name = '用户私信表'
+#         verbose_name_plural = verbose_name
+#         db_table = 'message'
 

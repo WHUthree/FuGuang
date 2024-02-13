@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+
 from django.urls import path, include, re_path
 
 from common.db import FileView
@@ -23,4 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('User.urls')),
     re_path(r'file/image/(.+?)/', FileView.as_view()),
+    path("api/square/", include("Square.urls")),
+    path("api/chat/", include("Message.urls")),
+
 ]

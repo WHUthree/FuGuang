@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'Square',
     'User',
+    'channels',
+    'Message',
+
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'FuGuang.wsgi.application'
+
+ASGI_APPLICATION = 'websocket_test.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default":{
+        'BACKEND':'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'hosts':[('localhost',6379)]
+        }
+    }
+}
 
 
 # Database
@@ -113,9 +128,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -128,6 +145,7 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -192,3 +210,7 @@ SIMPLE_JWT = {
 # 文件上传的保存路径
 MEDIA_ROOT = BASE_DIR / 'file/image'
 MEDIA_URL = 'file/image/'
+
+
+
+

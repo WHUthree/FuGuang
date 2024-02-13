@@ -1,12 +1,7 @@
 import os
 from tokenize import TokenError
 from uuid import uuid1
-
-from django.http import FileResponse
-from django.shortcuts import render
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from FuGuang.settings import MEDIA_ROOT
 from .serializers import UserSerializer, MyTokenObtainPairSerializer
 from rest_framework.decorators import action
 from rest_framework import status
@@ -15,7 +10,6 @@ from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
-from rest_framework.viewsets import mixins
 from User.models import User
 from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission
@@ -142,8 +136,8 @@ class UserView(ModelViewSet):
         return Response({'url':ser.data['avatar']})
 
 
-class MessageView():
-    pass
+# class MessageView():
+#     pass
 
 
 

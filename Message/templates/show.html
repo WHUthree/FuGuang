@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .message{
+            height:400px;
+            border:2px solid #dddddd;
+            width:100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="message" id="message">
+    {% for msg in msgs %}
+    <div>{{ msg.content }}</div>
+    {% endfor %}
+</div>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="pls input" id="txt" name="txt">
+        <input type="submit" value="send" onclick="sendMessage()">
+    </form>
+    <input type="button" value="close" onclick="closeConnection()">
+</div>
+
+<script>
+    socket = new WebSocket("ws://127.0.0.1:8000/chat/{{group_id}}/");
+
+    socket.onopen = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = "[successfully connect]";
+        document.getElementById("message").appendChild(tag);
+    }
+
+     socket.onmessage = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = event.data;
+        document.getElementById("message").appendChild(tag);
+    }
+
+    socket.onclose = function(event){
+        let tag = document.createElement("div");
+        tag.innerText = "[close connect]";
+        document.getElementById("message").appendChild(tag);
+    }
+
+    function sendMessage(){
+        let tag = document.getElementById("txt");
+        socket.send(tag.value);
+    }
+
+    function closeConnection(){
+        socket.close();
+    }
+
+</script>
+
+</body>
+</html>
