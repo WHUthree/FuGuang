@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name="User",
+            name="user",
             fields=[
                 (
                     "id",
@@ -167,7 +167,7 @@ class Migration(migrations.Migration):
                     "private_letter",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="User.privateletter",
+                        to="user.privateletter",
                         verbose_name="私信",
                     ),
                 ),

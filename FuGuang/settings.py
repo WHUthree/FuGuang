@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'rest_framework',
-    'Square',
-    'User',
+    'square',
+    'user',
     'channels',
-    'Message',
+    'message',
 
 ]
 
@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'FuGuang.urls'
+ROOT_URLCONF = 'fuguang.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'FuGuang.wsgi.application'
+WSGI_APPLICATION = 'fuguang.wsgi.application'
 
 ASGI_APPLICATION = 'websocket_test.asgi.application'
 
@@ -150,7 +150,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
  # 指定自定义用户模型
-AUTH_USER_MODEL = 'User.User'
+AUTH_USER_MODEL = 'user.user'
 
 #  DRF 的配置
 REST_FRAMEWORK = {
@@ -202,9 +202,9 @@ SIMPLE_JWT = {
 # 后端配置
 # AUTHENTICATION_BACKENDS = (
 #     # 'django.contrib.auth.backends.ModelBackend',
-#     # 'User.wechat_auth.MyJWTAuthentication',
+#     # 'user.wechat_auth.MyJWTAuthentication',
 #     # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     # 'User.backend.MyCustomBackend',
+#     # 'user.backend.MyCustomBackend',
 # )
 
 # 文件上传的保存路径

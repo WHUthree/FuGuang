@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("User", "0002_alter_user_private_letter"),
+        ("user", "0002_alter_user_private_letter"),
     ]
 
     operations = [

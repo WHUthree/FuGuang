@@ -10,10 +10,11 @@ from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
-from User.models import User
+from user.models import User
 from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission
 import requests
+
 
 # Create your views here.
 def getOpenid(code, appId, appSecret):
@@ -36,6 +37,7 @@ def getOpenid(code, appId, appSecret):
 
 class RegisterView(APIView):
     """注册视图"""
+
     def post(self, request):
         code = request.data.get("code", None)
         appId = request.data.get("appid", None)
@@ -80,7 +82,7 @@ class LoginView(TokenObtainPairView):
         if code:
             openid = getOpenid(code, appId, appSecret)
             user = User.objects.filter(openid=openid).first()
-            # user = User.objects.first()
+            # user = user.objects.first()
             if not user:
                 return Response({"error: 该微信用户不存在"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
             refresh = RefreshToken.for_user(user)
@@ -104,7 +106,6 @@ class LoginView(TokenObtainPairView):
         result = serializer.validated_data
 
         return Response(result, status=status.HTTP_200_OK)
-
 
 
 class UserView(ModelViewSet):
@@ -133,19 +134,7 @@ class UserView(ModelViewSet):
         ser.is_valid(raise_exception=True)
         ser.save()
 
-        return Response({'url':ser.data['avatar']})
-
+        return Response({'url': ser.data['avatar']})
 
 # class MessageView():
 #     pass
-
-
-
-
-
-
-
-
-
-
-

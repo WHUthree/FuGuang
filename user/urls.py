@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.urls import path, re_path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from User.views import LoginView, UserView, RegisterView
+from django.urls import path
+from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from user.views import LoginView, UserView, RegisterView
 from rest_framework import routers
 
 routers = routers.DefaultRouter()
@@ -16,4 +16,3 @@ urlpatterns = [
 ]
 
 urlpatterns += routers.urls
-

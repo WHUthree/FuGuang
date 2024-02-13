@@ -3,7 +3,7 @@ from channels.exceptions import StopConsumer
 from asgiref.sync import async_to_sync
 import datetime
 
-from ..Square.models import MealInfo
+from square.models import MealInfo
 
 class ChatConsumer(WebsocketConsumer):
 

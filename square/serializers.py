@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..User.serializers import UserSerializer
+from ..user.serializers import UserSerializer
 from .models import *
 
 class MealInfoSerializer(serializers.ModelSerializer):

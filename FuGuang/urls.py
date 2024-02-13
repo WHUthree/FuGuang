@@ -22,9 +22,9 @@ from common.db import FileView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/', include('User.urls')),
+    path('api/users/', include('user.urls')),
     re_path(r'file/image/(.+?)/', FileView.as_view()),
-    path("api/square/", include("Square.urls")),
+    path("api/square/", include("square.urls")),
     path("api/chat/", include("Message.urls")),
 
 ]

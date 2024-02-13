@@ -3,7 +3,6 @@ from common.db import BaseModel
 from django.contrib.auth.models import AbstractUser
 
 
-
 class GenderType(models.IntegerChoices):
     """
     性别，主要用于用户表
@@ -14,9 +13,7 @@ class GenderType(models.IntegerChoices):
     FEMALE = 2, "女"
 
 
-
 class User(AbstractUser, BaseModel):
-
     # 基本信息
     username = models.CharField(max_length=20, unique=True, verbose_name="用户名")
     wechat = models.CharField(max_length=25, default="", verbose_name="wechat")
@@ -33,7 +30,6 @@ class User(AbstractUser, BaseModel):
         verbose_name="性别",
     )
 
-
     #  权限认证
     is_authenticated = models.BooleanField("是否激活", default=True)
     is_staff = models.BooleanField("管理员", default=False)
@@ -49,10 +45,8 @@ class User(AbstractUser, BaseModel):
     class Meta:
         verbose_name = "用户表"
         verbose_name_plural = verbose_name
-        app_label = "User"
+        app_label = "user"
         db_table = "users"
-
-
 
 
 class VerifCode(models.Model):
@@ -60,16 +54,16 @@ class VerifCode(models.Model):
     phone_number = models.CharField(verbose_name="手机号码", max_length=11)
     code = models.CharField(max_length=6, verbose_name="验证码")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="生成时间")
+
     class Meta:
         verbose_name = "手机验证码表"
         verbose_name_plural = verbose_name
         db_table = 'verifcode'
 
-
 # class Message(models.Model):
 #     """私信模型"""
-#     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE, verbose_name='发送方')
-#     recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE, verbose_name='接收方')
+#     sender = models.ForeignKey(user, related_name='sent_messages', on_delete=models.CASCADE, verbose_name='发送方')
+#     recipient = models.ForeignKey(user, related_name='received_messages', on_delete=models.CASCADE, verbose_name='接收方')
 #     content = models.TextField(verbose_name='私信内容')
 #     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='私信的发送时间')
 #
@@ -77,4 +71,3 @@ class VerifCode(models.Model):
 #         verbose_name = '用户私信表'
 #         verbose_name_plural = verbose_name
 #         db_table = 'message'
-

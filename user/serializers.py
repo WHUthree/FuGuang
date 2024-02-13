@@ -4,7 +4,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     # 用户详细信息
     class Meta:
         model = User
@@ -22,7 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     password = serializers.CharField(max_length=150, allow_blank=True, required=False, allow_null=True)
 
@@ -34,19 +32,17 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["openid"] = user.openid
         return token
 
-
     # '自定义返回格式'
     def validate(self, attrs):
         # attrs.update({'password': ''})
         # old_data = super(MyTokenObtainPairSerializer, self).validate(attrs)
         old_data = super().validate(attrs)
         data = {
-                'msg': '登录成功',
-                'id': self.user.id,
-                'username': self.user.username,
-                'admin': self.user.is_superuser,
-                'refresh': old_data['refresh'],
-                'token': old_data['access']
-                }
+            'msg': '登录成功',
+            'id': self.user.id,
+            'username': self.user.username,
+            'admin': self.user.is_superuser,
+            'refresh': old_data['refresh'],
+            'token': old_data['access']
+        }
         return data
-
