@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import datetime
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -27,7 +25,6 @@ SECRET_KEY = 'django-insecure-4zrh=q(t4kz-8lel-#0$ezalvn23lo4dmv(=#7mh%wjj6v(+(k
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -63,8 +60,7 @@ ROOT_URLCONF = 'fuguang.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,17 +75,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fuguang.wsgi.application'
 
-ASGI_APPLICATION = 'websocket_test.asgi.application'
+ASGI_APPLICATION = 'fuguang.asgi.application'
 
 CHANNEL_LAYERS = {
-    "default":{
-        'BACKEND':'channels_redis.core.RedisChannelLayer',
-        'CONFIG':{
-            'hosts':[('localhost',6379)]
+    "default": {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)]
         }
     }
 }
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -97,14 +92,13 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST':'127.0.0.1',
-        'port':3306,
-        'USER':'root',
-        'PASSWORD':'123456',
+        'HOST': '127.0.0.1',
+        'port': 3306,
+        'USER': 'root',
+        'PASSWORD': '123456',
         'NAME': 'fuguang',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -123,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -149,7 +142,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
- # 指定自定义用户模型
+# 指定自定义用户模型
 AUTH_USER_MODEL = 'user.user'
 
 #  DRF 的配置
@@ -162,8 +155,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-
-
 # JWT配置
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=5),  # Access Token的有效期
@@ -173,7 +164,7 @@ SIMPLE_JWT = {
 
     # # 是否自动刷新Refresh Token
     # 'ROTATE_REFRESH_TOKENS': False,
-    # # 刷新Refresh Token时是否将旧Token加入黑名单，如果设置为False，则旧的刷新令牌仍然可以用于获取新的访问令牌。需要将'rest_framework_simplejwt.token_blacklist'加入到'INSTALLED_APPS'的配置中
+    # #刷新Refresh Token时是否将旧Token加入黑名单，如果设置为False，则旧的刷新令牌仍然可以用于获取新的访问令牌。需要将'rest_framework_simplejwt.token_blacklist'加入到'INSTALLED_APPS'的配置中
     # 'BLACKLIST_AFTER_ROTATION': False,
     # 'ALGORITHM': 'HS256',  # 加密算法
     # 'SIGNING_KEY': SECRET_KEY,  # 签名密匙，这里使用Django的SECRET_KEY
@@ -196,7 +187,6 @@ SIMPLE_JWT = {
     # # JWT负载中包含用户ID的声明。默认为"user_id"。
     # "USER_ID_CLAIM": "user_id",
 
-
 }
 
 # 后端配置
@@ -210,7 +200,3 @@ SIMPLE_JWT = {
 # 文件上传的保存路径
 MEDIA_ROOT = BASE_DIR / 'file/image'
 MEDIA_URL = 'file/image/'
-
-
-
-

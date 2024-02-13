@@ -7,17 +7,19 @@ from rest_framework.response import Response
 from .models import Message
 from .serializers import MessageSerializer
 
+
 # Create your views here.
 # 前端需要重写,json传数据,用序列化器
 
-def show(request,gid):
-    if(request.method == 'GET'):
+def show(request, gid):
+    if (request.method == 'GET'):
         queryset = Message.objects.filter(group=gid).order_by('send_time')
-        return render(request,"show.html",{'group_id':gid,'msgs':queryset})
+        return render(request, "show.html", {'group_id': gid, 'msgs': queryset})
     else:
         message = request.POST.get('txt')
-        Message.objects.create(group=gid,content=message)
-        return redirect(reverse('show',kwargs={'gid':gid}))
+        Message.objects.create(group=gid, content=message)
+        return redirect(reverse('show', kwargs={'gid': gid}))
+
 
 '''
 class MessageView(GenericAPIView):

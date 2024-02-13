@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from ..user.serializers import UserSerializer
+from user.serializers import UserSerializer
 from .models import *
 
-class MealInfoSerializer(serializers.ModelSerializer):
 
+class MealInfoSerializer(serializers.ModelSerializer):
     participants = UserSerializer(many=True)
 
     class Meta:
@@ -13,7 +13,6 @@ class MealInfoSerializer(serializers.ModelSerializer):
 
 
 class AppraiseSerializer(serializers.ModelSerializer):
-
     receipient = UserSerializer()
 
     class Meta:
@@ -22,7 +21,6 @@ class AppraiseSerializer(serializers.ModelSerializer):
 
 
 class ShareInfoSerializer(serializers.ModelSerializer):
-
     post_user = UserSerializer()
 
     class Meta:

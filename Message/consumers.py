@@ -5,6 +5,7 @@ import datetime
 
 from square.models import MealInfo
 
+
 class ChatConsumer(WebsocketConsumer):
 
     def websocket_connect(self, message):

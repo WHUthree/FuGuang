@@ -71,3 +71,6 @@ class VerifCode(models.Model):
 #         verbose_name = '用户私信表'
 #         verbose_name_plural = verbose_name
 #         db_table = 'message'
+
+
+
