@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'rest_framework',
+    'multiselectfield',
+    'notifications',
     'square',
     'user',
     'channels',
     'message',
-
 ]
 
 MIDDLEWARE = [
