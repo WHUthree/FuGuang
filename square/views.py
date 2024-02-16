@@ -2,10 +2,14 @@ from .models import *
 from user.models import User
 from .serializers import *
 from .notification import send_notifications
+from .filters import MealInfoFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import serializers
 from rest_framework.response import Response
+from rest_framework.decorators import action
+
 
 # class recruit_messageView(GenericAPIView):
 #     queryset = recruit_message.objects.all()
@@ -90,19 +94,19 @@ from rest_framework.response import Response
 class recruit_messageView(ModelViewSet):
     queryset = MealInfo.objects.all()
     serializer_class = recruit_messageSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_class = MealInfoFilter
+    ordering_fields = ['meal_time']
     def get_queryset(self):
-        #前端传get?
+        #前端传get
         grade = self.request.query_params.get('grade')
-        queryset = MealInfo.objects.filter(grade__contains=grade).filter(is_complete=False)
+        queryset = MealInfo.objects.filter(grade__icontains=grade).filter(is_complete=False).order_by('meal_time')
         return queryset
-
-    #排序？过滤？
 
     @action(methods=['put'], detail=True)
     def joined(self, request, *args, **kwargs):
         instance = self.get_object()
         if (instance.joined_num < (instance.member_num - 1)):
-            # 前端传get?
             participant_name = request.data.get('participant_name')
             participant = User.objects.get(username=participant_name)
             instance.participants.add(participant)
@@ -116,27 +120,45 @@ class recruit_messageView(ModelViewSet):
             return Response({'message':'已满员'})
 
 
-
 class meal_recordView(ModelViewSet):
-    queryset = MealInfo.objects.all().filter(is_complete=True)
+    queryset = MealInfo.objects.all()
     serializer_class = meal_recordSerializer
 
-
+    def get_queryset(self):
+        # 前端传get
+        user_id = self.request.query_params.get('id')
+        queryset = User.objects.filter(id=user_id).filter(is_complete=True).order_by('meal_time')
+        return queryset
 
 
 class LeftMessageView(ModelViewSet):
     queryset = LeftMessage.objects.all()
     serializer_class = LeftMessageSerializer
 
+    def get_queryset(self):
+        # 前端传get
+        record_id = self.request.query_params.get('id')
+        queryset = LeftMessage.objects.filter(meal__id=record_id)
+        return queryset
 
+
+#评价无需展示
 class AppraiseView(ModelViewSet):
     queryset = Appraise.objects.all()
     serializer_class = AppraiseSerializer
+
+    @action(methods=['post'], detail=False)
+    def appraise(self, request):
+        recipient = request.data.get('recipient')
+        recipient.star = (recipient.star + request.data.get('star'))/2
+        recipient.save()
+        return Response({'message':'评价成功'})
 
 
 class ShareView(ModelViewSet):
     queryset = Share.objects.all()
     serializer_class = ShareSerializer
+
     @action(methods=['put'], detail=True)
     def GetLike(self, request, pk):
         instance = self.get_object()

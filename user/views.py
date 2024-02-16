@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from user.models import User
 from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission
-import requests
+#import requests
 
 
 # Create your views here.

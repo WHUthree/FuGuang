@@ -11,6 +11,7 @@ from rest_framework.response import Response
 class recruit_messageSerializer(serializers.ModelSerializer):
     #participants = UserSerializer(many=True)
     #post_user = UserSerializer(many=True)
+    grade = serializers.MultipleChoiceField(choices=MealInfo.grade_choice)
     class Meta:
         model = MealInfo
         fields = '__all__'
@@ -19,7 +20,7 @@ class recruit_messageSerializer(serializers.ModelSerializer):
 class meal_recordSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealInfo
-        exclude = {'end_time','joined_num'}
+        exclude = {'grade','end_time','joined_num'}
 
 
 class LeftMessageSerializer(serializers.ModelSerializer):

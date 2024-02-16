@@ -20,7 +20,7 @@ class MealInfo(models.Model):
         (5, "研一"), (6, "研二"), (7, "研三"),
         (8, "博一"), (9, "博二"), (10, "博三"), (11, "博四")
     )
-    grade = models.MultiSelectField(choices=grade_choice, verbose_name="期望年级")
+    grade = MultiSelectField(choices=grade_choice, max_length=8, max_choices=11, verbose_name="期望年级")
     location = models.CharField(max_length=30, verbose_name=u"地点")
 
     type = models.SmallIntegerField(choices=type_choice, verbose_name="种类")
@@ -28,18 +28,18 @@ class MealInfo(models.Model):
         (1, "不辣"), (2, "微辣"),
         (3, "中辣"), (4, "重辣")
     )
-    spicy = models.SmallIntegerField(choices=spicy_choice, verbose_name=u"辣度")
+    spicy = models.SmallIntegerField(choices=spicy_choice, default=1, verbose_name=u"辣度")
     cost = models.SmallIntegerField(validators=[MinValueValidator(0)], verbose_name="预期人均消费")
 
     end_time = models.DateTimeField(verbose_name=u"招募截止时间")
-    dinner_time = models.DateTimeField(verbose_name=u"用餐时间")
+    meal_time = models.DateTimeField(verbose_name=u"用餐时间")
 
     image1 = models.ImageField(null=True, blank=True, verbose_name="图片1")
     image2 = models.ImageField(null=True, blank=True, verbose_name="图片2")
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
 
-    participants = models.ManyToManyField(User, related_name='meal_infos')
-    post_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="发布者")
+    participants = models.ManyToManyField(User, null=True, related_name='meal_infos')
+    post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
 
     joined_num = models.IntegerField(default=0, verbose_name="已应募人数")
     is_complete = models.BooleanField(default=False, verbose_name=u"是否完成")
@@ -49,16 +49,16 @@ class MealInfo(models.Model):
 
 
 class LeftMessage(models.Model):
-    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, verbose_name=u"对应约饭记录")
+    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, default=1, verbose_name=u"对应约饭记录")
     content = models.TextField(verbose_name=u"内容")
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"留言者")
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name=u"留言者")
 
     class Meta:
         verbose_name = "留言"
         verbose_name_plural = verbose_name
 
 class Appraise(models.Model):
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="被评价者")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="被评价者")
     star = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name="星数")
     class Meta:
         verbose_name = "评价"
@@ -75,7 +75,7 @@ class Share(models.Model):
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
     likes = models.SmallIntegerField(default=0, verbose_name="点赞数")
 
-    post_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="发布者")
+    post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
     class Meta:
         verbose_name = "分享"
         verbose_name_plural = verbose_name
