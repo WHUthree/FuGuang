@@ -14,30 +14,44 @@ class recruit_messageSerializer(serializers.ModelSerializer):
     grade = serializers.MultipleChoiceField(choices=MealInfo.grade_choice)
     class Meta:
         model = MealInfo
-        fields = '__all__'
+        exclude = ['participants','is_complete']
+        extra_kwargs = {
+            'post_user': {'read_only': True}
+        }
+
+    def validate(self, data):
+        if data['end_time'] > data['meal_time']:
+            raise serializers.ValidationError("meal_time should not be earlier than end_time")
+        return data
 
 
 class meal_recordSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealInfo
-        exclude = {'grade','end_time','joined_num'}
+        exclude = ['grade','end_time','joined_num','is_complete']
 
 
 class LeftMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = LeftMessage
-        fields = '__all__'
+        fields = "__all__"
+        extra_kwargs = {
+            'sender': {'read_only': True}
+        }
 
 
 class AppraiseSerializer(serializers.ModelSerializer):
-    #recipient = UserSerializer()
     class Meta:
         model = Appraise
         fields = "__all__"
 
 
 class ShareSerializer(serializers.ModelSerializer):
-    #post_user = UserSerializer()
     class Meta:
         model = Share
         fields = "__all__"
+        extra_kwargs = {
+            'post_user': {'read_only': True},
+            'likes': {'read_only': True},
+            'post_time': {'read_only': True}
+        }

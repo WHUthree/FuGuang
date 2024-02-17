@@ -91,13 +91,13 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
-        'port': 3306,
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'NAME': 'fuguang',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "fuguang",
+        "USER": "newaccount",
+        "PASSWORD": "123",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
     }
 }
 

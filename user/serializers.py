@@ -14,12 +14,15 @@ class UserSerializer(serializers.ModelSerializer):
             "phone_number",
             "wechat",
             "student_number",
-            "star",
             "avatar",
             "gender",
+            "star",
             "grade",
             "is_superuser",
         ]
+        extra_kwargs = {
+            "star": {'read_only': True}
+        }
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
