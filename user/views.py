@@ -2,17 +2,17 @@ import os
 from tokenize import TokenError
 from uuid import uuid1
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, MyTokenObtainPairSerializer
+from .serializers import UserSerializer, MyTokenObtainPairSerializer, UserinfoSerializer, MyRefreshTokenSerializer
 from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import InvalidToken
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 from rest_framework.views import APIView
 from user.models import User
 from rest_framework.permissions import IsAuthenticated
-from .permissions import UserPermission
+from .permissions import UserPermission, IsSuperUser
 import requests
 
 
@@ -50,10 +50,11 @@ class RegisterView(APIView):
         if not code and not password:
             return Response({"error: 缺少code或者密码"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         if User.objects.filter(username=username).first():
-            return Response({"error: 用户名重复"})
+            return Response({"error: 用户名重复"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         if code:
             openid = getOpenid(code, appId, appSecret)
-
+            if User.objects.filter(openid=openid):
+                return Response({"error": "用户已存在"}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         # 添加用户
         obj = User.objects.create_user(username=username, openid=openid, password=password)
         res = {
@@ -63,6 +64,8 @@ class RegisterView(APIView):
             'openid': openid
         }
         return Response(res, status=status.HTTP_201_CREATED)
+
+
 
 
 class LoginView(TokenObtainPairView):
@@ -108,11 +111,35 @@ class LoginView(TokenObtainPairView):
         return Response(result, status=status.HTTP_200_OK)
 
 
+class RefreshView(TokenRefreshView):
+    """刷新token"""
+    serializer_class = MyRefreshTokenSerializer
+
+
 class UserView(ModelViewSet):
     # 基本用户信息查询
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserinfoSerializer
     permission_classes = [IsAuthenticated, UserPermission, ]
+
+    def list(self, request, *args, **kwargs):
+        self.serializer_class = UserSerializer
+        return super().list(self, request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = UserSerializer
+        return super().retrieve(self, request, *args, **kwargs)
+
+    # 只有超级用户可以随意增添用户,并且可以授权超级用户
+    def create(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return Response({"error": "你没有操作权限"}, status=status.HTTP_403_FORBIDDEN)
+        self.serializer_class = UserinfoSerializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     # 上传用户头像
     @action(methods=['post'], detail=True, url_path='upload')
@@ -138,4 +165,3 @@ class UserView(ModelViewSet):
 
 # class MessageView():
 #     pass
-

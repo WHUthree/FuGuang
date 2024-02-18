@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import datetime
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -143,7 +144,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 指定自定义用户模型
-AUTH_USER_MODEL = 'user.user'
+AUTH_USER_MODEL = 'user.User'
 
 #  DRF 的配置
 REST_FRAMEWORK = {
@@ -153,6 +154,17 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+
+    # 限流
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',  # 匿名用户，未登录的
+        'rest_framework.throttling.UserRateThrottle'  # 经过登录之后的用户
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/day',
+        'user': '10000/day'
+    }
+
 }
 
 # JWT配置
