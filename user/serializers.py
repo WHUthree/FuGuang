@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             "phone_number",
             "wechat",
             "student_number",
+            "star",
             "avatar",
             "gender",
             "grade",

@@ -15,10 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-
-
 from django.urls import path, include, re_path
-
+import notifications.urls
 from common.db import FileView
 
 urlpatterns = [
@@ -27,4 +25,5 @@ urlpatterns = [
     re_path(r'file/image/(.+?)/', FileView.as_view()),
     path("api/square/", include("square.urls")),
     path("api/chat/", include("message.urls")),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
 ]

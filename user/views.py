@@ -14,6 +14,7 @@ from user.models import User
 from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission, IsSuperUser
 import requests
+from .permissions import UserPermission
 
 
 # Create your views here.
