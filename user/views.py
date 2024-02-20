@@ -15,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission, IsSuperUser
 import requests
 from .permissions import UserPermission
+from .throttles import ArticleListUserRateThrottle, ArticleListAnonRateThrottle
 
 
 # Create your views here.
@@ -73,7 +74,7 @@ class LoginView(TokenObtainPairView):
     """登录视图"""
     queryset = User.objects.all()
     serializer_class = MyTokenObtainPairSerializer
-
+    throttle_classes = [ArticleListAnonRateThrottle, ArticleListUserRateThrottle]
     def post(self, request, *args, **kwargs):
         code = request.data.get("code", None)
         appId = request.data.get("appid", None)
