@@ -96,12 +96,16 @@ class recruit_messageView(ModelViewSet):
     serializer_class = recruit_messageSerializer
     filter_backends = [DjangoFilterBackend]
     filter_class = MealInfoFilter
-    ordering_fields = ['meal_time']
     def get_queryset(self):
-        #前端传get
-        grade = self.request.query_params.get('grade')
-        queryset = MealInfo.objects.filter(grade__icontains=grade).filter(is_complete=False).order_by('meal_time')
-        return queryset
+        if self.request.query_params.get('user_id'):
+            post_user = self.request.user
+            queryset = MealInfo.objects.filter(post_user=post_user).filter(is_complete=False).order_by('meal_time')
+            return queryset
+        else:
+            user = self.request.user
+            grade = user.grade
+            queryset = MealInfo.objects.filter(grade__icontains=grade).filter(is_complete=False).order_by('meal_time')
+            return queryset
 
     @action(methods=['put'], detail=True)
     def joined(self, request, *args, **kwargs):
@@ -119,15 +123,17 @@ class recruit_messageView(ModelViewSet):
             instance.is_complete = True
             return Response({'message':'已满员'})
 
+    def perform_create(self, serializer):
+        serializer.save(post_user=self.request.user)
+
 
 class meal_recordView(ModelViewSet):
     queryset = MealInfo.objects.all()
     serializer_class = meal_recordSerializer
 
     def get_queryset(self):
-        # 前端传get
-        user_id = self.request.query_params.get('id')
-        queryset = User.objects.filter(id=user_id).filter(is_complete=True).order_by('meal_time')
+        user_id = self.request.user.id
+        queryset = MealInfo.objects.filter(id=user_id).filter(is_complete=True).order_by('meal_time')
         return queryset
 
 
@@ -136,10 +142,12 @@ class LeftMessageView(ModelViewSet):
     serializer_class = LeftMessageSerializer
 
     def get_queryset(self):
-        # 前端传get
         record_id = self.request.query_params.get('id')
         queryset = LeftMessage.objects.filter(meal__id=record_id)
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
 
 
 #评价无需展示
@@ -159,6 +167,15 @@ class ShareView(ModelViewSet):
     queryset = Share.objects.all()
     serializer_class = ShareSerializer
 
+    def get_queryset(self):
+        if self.request.query_params.get('user_id'):
+            post_user = self.request.user
+            queryset = Share.objects.filter(post_user=post_user).order_by('post_time')
+            return queryset
+        else:
+            queryset = Share.objects.all().order_by('post_time')
+            return queryset
+
     @action(methods=['put'], detail=True)
     def GetLike(self, request, pk):
         instance = self.get_object()
@@ -167,6 +184,10 @@ class ShareView(ModelViewSet):
         serializer = self.get_serializer(instance)
         send_notifications(request.user, '点赞了',instance.post_user)
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(post_user=self.request.user)
+
 
 '''
 def user_notifications(request):
