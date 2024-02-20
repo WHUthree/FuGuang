@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'message',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -95,8 +96,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "fuguang",
-        "USER": "newaccount",
-        "PASSWORD": "123",
+        "USER": "root",
+        "PASSWORD": "123456",
         "HOST": "127.0.0.1",
         "PORT": "3306",
     }
@@ -161,10 +162,6 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',  # 匿名用户，未登录的
         'rest_framework.throttling.UserRateThrottle'  # 经过登录之后的用户
     ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '5/day',
-        'user': '10000/day'
-    }
 
 }
 
