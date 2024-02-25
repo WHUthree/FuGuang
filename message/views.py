@@ -5,7 +5,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 from .models import Message
-from .serializers import MessageSerializer
+#from .serializers import MessageSerializer
 
 
 # Create your views here.

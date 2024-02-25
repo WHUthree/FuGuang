@@ -19,9 +19,11 @@ class UserSerializer(serializers.ModelSerializer):
             "star",
             "grade",
             "is_superuser",
+            "appraise_num"
         ]
         extra_kwargs = {
-            "star": {'read_only': True}
+            "star": {'read_only': True},
+            "appraise_num": {'read_only': True},
         }
 
 

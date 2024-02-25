@@ -38,11 +38,13 @@ class MealInfo(models.Model):
     image2 = models.ImageField(null=True, blank=True, verbose_name="图片2")
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
 
-    participants = models.ManyToManyField(User, null=True, related_name='meal_infos')
+    participants = models.ManyToManyField(User, related_name='meal_infos', verbose_name="吃饭者")
     post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
 
     joined_num = models.IntegerField(default=0, verbose_name="已应募人数")
-    is_complete = models.BooleanField(default=False, verbose_name=u"是否完成")
+    is_full = models.BooleanField(default=False, verbose_name="是否满员")
+    is_complete = models.BooleanField(default=False, verbose_name="是否吃完")
+    is_overdue = models.BooleanField(default=False, verbose_name="是否过期")
     class Meta:
         verbose_name = "约饭信息"
         verbose_name_plural = verbose_name
@@ -58,8 +60,11 @@ class LeftMessage(models.Model):
         verbose_name_plural = verbose_name
 
 class Appraise(models.Model):
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="被评价者")
+    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, default=1, verbose_name="对应约饭记录")
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="评价者")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='appraises', verbose_name="被评价者")
     star = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name="星数")
+    done = models.BooleanField(default=False, verbose_name="是否已评价")
     class Meta:
         verbose_name = "评价"
         verbose_name_plural = verbose_name
@@ -74,6 +79,7 @@ class Share(models.Model):
     image2 = models.ImageField(null=True, blank=True, verbose_name="图片2")
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
     likes = models.SmallIntegerField(default=0, verbose_name="点赞数")
+    liked_by = models.ManyToManyField(User, related_name='likeds', verbose_name="点赞者")
     post_time = models.DateTimeField(auto_now=True, verbose_name="分享时间")
 
     post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
