@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import datetime
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
     'rest_framework',
+    'multiselectfield',
+    'notifications',
     'square',
     'user',
     'channels',
     'message',
-
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,13 +93,13 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '127.0.0.1',
-        'port': 3306,
-        'USER': 'root',
-        'PASSWORD': '20050107lsr',
-        'NAME': 'fuguang',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "fuguang",
+        "USER": "root",
+        "PASSWORD": "123456",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
     }
 }
 
@@ -153,6 +156,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+
+    # 限流
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',  # 匿名用户，未登录的
+        'rest_framework.throttling.UserRateThrottle'  # 经过登录之后的用户
+    ),
+
 }
 
 # JWT配置
