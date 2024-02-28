@@ -14,7 +14,7 @@ class recruit_messageSerializer(serializers.ModelSerializer):
     grade = serializers.MultipleChoiceField(choices=MealInfo.grade_choice)
     class Meta:
         model = MealInfo
-        exclude = ['is_full','is_complete','is_overdue']
+        fields = '__all__'
         extra_kwargs = {
             'post_user': {'read_only': True},
             'participants': {'read_only': True}
@@ -29,7 +29,7 @@ class recruit_messageSerializer(serializers.ModelSerializer):
 class meal_recordSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealInfo
-        exclude = ['grade','end_time','joined_num','is_full','is_complete','is_overdue']
+        exclude = ['grade','end_time','joined_num','is_overdue','is_full','is_complete']
 
 
 class LeftMessageSerializer(serializers.ModelSerializer):
@@ -46,9 +46,7 @@ class AppraiseSerializer(serializers.ModelSerializer):
         model = Appraise
         fields = "__all__"
         extra_kwargs = {
-            'giver': {'read_only': True},
-            'meal': {'read_only': True},
-            'done': {'read_only': True}
+            'giver': {'read_only': True}
         }
 
 

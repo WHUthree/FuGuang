@@ -39,7 +39,7 @@ class MealInfo(models.Model):
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
 
     participants = models.ManyToManyField(User, related_name='meal_infos', verbose_name="吃饭者")
-    post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
+    post_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="发布者")
 
     joined_num = models.IntegerField(default=0, verbose_name="已应募人数")
     is_full = models.BooleanField(default=False, verbose_name="是否满员")
@@ -51,20 +51,19 @@ class MealInfo(models.Model):
 
 
 class LeftMessage(models.Model):
-    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, default=1, verbose_name=u"对应约饭记录")
+    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, verbose_name=u"对应约饭记录")
     content = models.TextField(verbose_name=u"内容")
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name=u"留言者")
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"留言者")
 
     class Meta:
         verbose_name = "留言"
         verbose_name_plural = verbose_name
 
 class Appraise(models.Model):
-    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, default=1, verbose_name="对应约饭记录")
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="评价者")
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='appraises', verbose_name="被评价者")
+    meal = models.ForeignKey(MealInfo, on_delete=models.CASCADE, verbose_name="对应约饭记录")
+    giver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='give_appraises', verbose_name="评价者")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receive_appraises', verbose_name="被评价者")
     star = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], verbose_name="星数")
-    done = models.BooleanField(default=False, verbose_name="是否已评价")
     class Meta:
         verbose_name = "评价"
         verbose_name_plural = verbose_name
