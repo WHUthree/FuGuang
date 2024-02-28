@@ -14,9 +14,10 @@ class recruit_messageSerializer(serializers.ModelSerializer):
     grade = serializers.MultipleChoiceField(choices=MealInfo.grade_choice)
     class Meta:
         model = MealInfo
-        exclude = ['participants','is_complete']
+        fields = '__all__'
         extra_kwargs = {
-            'post_user': {'read_only': True}
+            'post_user': {'read_only': True},
+            'participants': {'read_only': True}
         }
 
     def validate(self, data):
@@ -28,7 +29,7 @@ class recruit_messageSerializer(serializers.ModelSerializer):
 class meal_recordSerializer(serializers.ModelSerializer):
     class Meta:
         model = MealInfo
-        exclude = ['grade','end_time','joined_num','is_complete']
+        exclude = ['grade','end_time','joined_num','is_overdue','is_full','is_complete']
 
 
 class LeftMessageSerializer(serializers.ModelSerializer):
@@ -44,6 +45,9 @@ class AppraiseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appraise
         fields = "__all__"
+        extra_kwargs = {
+            'giver': {'read_only': True}
+        }
 
 
 class ShareSerializer(serializers.ModelSerializer):
@@ -53,5 +57,6 @@ class ShareSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'post_user': {'read_only': True},
             'likes': {'read_only': True},
+            'liked_by': {'read_only': True},
             'post_time': {'read_only': True}
         }
