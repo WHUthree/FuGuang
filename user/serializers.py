@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import User
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,6 +27,23 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
 
+class UserinfoSerializer(serializers.ModelSerializer):
+    # 修改和创建用户
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "email",
+            "phone_number",
+            "wechat",
+            "student_number",
+            "avatar",
+            "gender",
+            "grade",
+        ]
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     password = serializers.CharField(max_length=150, allow_blank=True, required=False, allow_null=True)
 
@@ -49,6 +66,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             'username': self.user.username,
             'admin': self.user.is_superuser,
             'refresh': old_data['refresh'],
+            'token': old_data['access']
+        }
+        return data
+
+class MyRefreshTokenSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        old_data = super().validate(attrs)
+        data = {
             'token': old_data['access']
         }
         return data
