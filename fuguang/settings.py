@@ -96,8 +96,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "fuguang",
-        "USER": "root",
-        "PASSWORD": "123456",
+        "USER": "newaccount",
+        "PASSWORD": "123",
         "HOST": "127.0.0.1",
         "PORT": "3306",
     }
@@ -162,6 +162,9 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',  # 匿名用户，未登录的
         'rest_framework.throttling.UserRateThrottle'  # 经过登录之后的用户
     ),
+
+
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 
 }
 

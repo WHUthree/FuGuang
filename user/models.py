@@ -21,7 +21,7 @@ class User(AbstractUser, BaseModel):
     phone_number = models.CharField(max_length=20, verbose_name="电话")
     grade = models.IntegerField(default=0, verbose_name="年级")
     email = models.CharField(max_length=20, verbose_name="邮箱", null=True, blank=True)
-    star = models.IntegerField(default=5, verbose_name="评价星数")
+    star = models.DecimalField(default=5.0, max_digits=2, decimal_places=1, verbose_name="评价星数")
     appraise_num = models.IntegerField(default=0, verbose_name="被评价次数")
 
     # 个性化

@@ -18,7 +18,11 @@ class recruit_messageView(ModelViewSet):
     queryset = MealInfo.objects.filter(is_complete=False).order_by('meal_time')
     serializer_class = recruit_messageSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_class = MealInfoFilter
+    filterset_class = MealInfoFilter
+
+    def filter_queryset(self, queryset):
+        queryset = super().filter_queryset(queryset)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(post_user=self.request.user)
@@ -31,7 +35,7 @@ class recruit_messageView(ModelViewSet):
     def all(self, request, *args, **kwargs):
         user = self.request.user
         grade = user.grade
-        all_recruit_msg = self.get_queryset().filter(is_full=False, is_overdue=False, grade__icontains=grade)
+        all_recruit_msg = self.filter_queryset(self.queryset).filter(is_full=False, is_overdue=False, grade__icontains=grade)
         serializer = self.get_serializer(all_recruit_msg, many=True)
         return Response(serializer.data)
     # 我的记录 进行中
