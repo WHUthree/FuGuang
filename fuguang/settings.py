@@ -99,7 +99,7 @@ DATABASES = {
         "NAME": "fuguang",
         "USER": "root",
         "PASSWORD": "123456",
-        "HOST": "db",
+        "HOST": "127.0.0.1",
         "PORT": "3306",
     }
 }
@@ -165,6 +165,7 @@ REST_FRAMEWORK = {
 
 
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
 
 }
 
