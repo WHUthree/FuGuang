@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
 from pathlib import Path
 import datetime
 
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4zrh=q(t4kz-8lel-#0$ezalvn23lo4dmv(=#7mh%wjj6v(+(k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["api.meal.temp.ziqiang.net.cn"]
 
 # Application definition
 
@@ -96,9 +97,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "fuguang",
-        "USER": "newaccount",
-        "PASSWORD": "123",
-        "HOST": "127.0.0.1",
+        "USER": "root",
+        "PASSWORD": "123456",
+        "HOST": "db",
         "PORT": "3306",
     }
 }
@@ -137,7 +138,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -213,3 +213,7 @@ SIMPLE_JWT = {
 # 文件上传的保存路径
 MEDIA_ROOT = BASE_DIR / 'file/image'
 MEDIA_URL = 'file/image/'
+
+# 静态文件配置
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
