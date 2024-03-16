@@ -211,6 +211,9 @@ SIMPLE_JWT = {
 #     # 'user.backend.MyCustomBackend',
 # )
 
+# 系统通知软删除
+DJANGO_NOTIFICATIONS_CONFIG = { 'USE_JSONFIELD':True }
+
 # 文件上传的保存路径
 MEDIA_ROOT = BASE_DIR / 'file/image'
 MEDIA_URL = 'file/image/'

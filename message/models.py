@@ -6,7 +6,7 @@ from user.models import User
 class Message(models.Model):
     group = models.IntegerField(verbose_name='所属群聊')
     content = models.TextField(verbose_name="消息内容")
-    sender = models.ForeignKey(to='user.User', to_field='username', verbose_name='发送者', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, verbose_name='发送者', on_delete=models.CASCADE)
     send_time = models.DateTimeField(auto_now=True, verbose_name='发送时间')
 
     class Meta:

@@ -29,7 +29,7 @@
 </div>
 
 <script>
-    socket = new WebSocket("ws://127.0.0.1:8000/chat/{{group_id}}/");
+    socket = new WebSocket("ws://127.0.0.1:8000/message/groupchat/{{group_id}}/");
 
     socket.onopen = function(event){
         let tag = document.createElement("div");

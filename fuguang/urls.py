@@ -24,6 +24,6 @@ urlpatterns = [
     path('api/users/', include('user.urls')),
     re_path(r'file/image/(.+?)/', FileView.as_view()),
     path("api/square/", include("square.urls")),
-    path("api/chat/", include("message.urls")),
+    path("api/message/", include("message.urls")),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
 ]

@@ -1,7 +1,7 @@
 from .models import *
 from user.models import User
 from .serializers import *
-from .notification import send_notifications
+from message.notification import send_notifications
 from .filters import MealInfoFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .__init__ import overdue_scheduler
@@ -218,9 +218,3 @@ class ShareView(ModelViewSet):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
-
-'''
-def user_notifications(request):
-    unread_list = request.user.notifications.unread()
-    #前端渲染？
-'''
