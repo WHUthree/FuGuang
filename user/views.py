@@ -39,7 +39,7 @@ def getOpenid(code, appId, appSecret):
 
 class RegisterView(APIView):
     """注册视图"""
-
+    permission_classes = []
     def post(self, request):
         code = request.data.get("code", None)
         appId = request.data.get("appid", None)
@@ -74,6 +74,7 @@ class LoginView(TokenObtainPairView):
     """登录视图"""
     queryset = User.objects.all()
     serializer_class = MyTokenObtainPairSerializer
+    permission_classes = []
     throttle_classes = [ArticleListAnonRateThrottle, ArticleListUserRateThrottle]
     def post(self, request, *args, **kwargs):
         code = request.data.get("code", None)

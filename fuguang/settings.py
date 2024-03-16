@@ -24,8 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4zrh=q(t4kz-8lel-#0$ezalvn23lo4dmv(=#7mh%wjj6v(+(k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 DEBUG = False
 
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ["api.meal.temp.ziqiang.net.cn"]
 
 # Application definition
@@ -97,9 +99,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "fuguang",
-        "USER": "root",
-        "PASSWORD": "123456",
-        "HOST": "127.0.0.1",
+        "USER": "fg",
+        "PASSWORD": "ExUG9zI8tcIF1GMzXja",
+        "HOST": "db",
         "PORT": "3306",
     }
 }
@@ -155,6 +157,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 
     # 限流
@@ -218,3 +224,37 @@ MEDIA_URL = 'file/image/'
 # 静态文件配置
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 日志配置以便查找错误
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
