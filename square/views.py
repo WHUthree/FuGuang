@@ -159,6 +159,9 @@ class AppraiseView(ModelViewSet):
         recipient = User.objects.get(id=recipient_id)
         recipient.star = (recipient.star + int(request.data.get('star')))/2
         recipient.appraise_num += 1
+        if (recipient.star<=2.5)
+            recipient.is_authenticate = False
+            send_notifications(request.user,'累计评价低于2.5星，封号处理',recipient)
         recipient.save()
         serializer = AppraiseSerializer(data=request.data)
         if serializer.is_valid():
