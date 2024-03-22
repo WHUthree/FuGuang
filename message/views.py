@@ -39,4 +39,4 @@ def send(request, gid, uid):
     message = request.POST.get('txt')
     sender = User.objects.get(id=uid)
     Message.objects.create(group=gid, sender=sender, content=message)
-    return redirect(reverse('show', kwargs={'gid': gid , 'uid':uid }))
+    return redirect(reverse('show', kwargs={'gid': gid}))
