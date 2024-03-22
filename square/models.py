@@ -79,7 +79,7 @@ class Share(models.Model):
     image3 = models.ImageField(null=True, blank=True, verbose_name="图片3")
     likes = models.SmallIntegerField(default=0, verbose_name="点赞数")
     liked_by = models.ManyToManyField(User, related_name='likeds', verbose_name="点赞者")
-    post_time = models.DateTimeField(auto_now=True, verbose_name="分享时间")
+    post_time = models.DateTimeField(auto_now_add=True, verbose_name="分享时间")
 
     post_user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, verbose_name="发布者")
     class Meta:
